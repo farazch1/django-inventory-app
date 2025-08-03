@@ -11,7 +11,7 @@ def inventory_view(request):
     user = request.user
     is_admin = user.groups.filter(name='Admins').exists()
     is_employee = user.groups.filter(name='Employees').exists()
-    is_viewer = user.groups.filter(name='Viewers').exists()
+    is_viewer = user.groups.filter(name='Viewer').exists()
 
     if request.method == 'POST':
         if 'add_item' in request.POST:

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,6 +51,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -71,13 +73,20 @@
             right: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
             animation: float 6s ease-in-out infinite;
         }
 
         @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+
+            0%,
+            100% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-20px);
+            }
         }
 
         .header-content {
@@ -199,7 +208,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: left 0.5s;
         }
 
@@ -375,11 +384,19 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -404,10 +421,10 @@
                 <div class="stat-card">
                     <div class="stat-number">
                         {% for item in items %}
-                            {% if forloop.first %}{{ item.quantity }}{% else %}{% endif %}
+                        {% if forloop.first %}{{ item.quantity }}{% else %}{% endif %}
                         {% empty %}0{% endfor %}
                         {% for item in items %}
-                            {% if not forloop.first %}{{ item.quantity|add:0 }}{% endif %}
+                        {% if not forloop.first %}{{ item.quantity|add:0 }}{% endif %}
                         {% endfor %}
                     </div>
                     <div class="stat-label">Total Quantity</div>
@@ -424,18 +441,21 @@
                     <form method="post">
                         {% csrf_token %}
                         {% for field in form %}
-                            <div class="form-group">
-                                {{ field.label_tag }}
-                                {% if field.html_name == 'name' %}
-                                    <input type="text" name="{{ field.html_name }}" class="form-control" placeholder="Enter item name" required>
-                                {% elif field.html_name == 'description' %}
-                                    <textarea name="{{ field.html_name }}" class="form-control" rows="3" placeholder="Enter item description"></textarea>
-                                {% elif field.html_name == 'quantity' %}
-                                    <input type="number" name="{{ field.html_name }}" class="form-control" placeholder="Enter quantity" min="0" required>
-                                {% else %}
-                                    {{ field }}
-                                {% endif %}
-                            </div>
+                        <div class="form-group">
+                            {{ field.label_tag }}
+                            {% if field.html_name == 'name' %}
+                            <input type="text" name="{{ field.html_name }}" class="form-control"
+                                placeholder="Enter item name" required>
+                            {% elif field.html_name == 'description' %}
+                            <textarea name="{{ field.html_name }}" class="form-control" rows="3"
+                                placeholder="Enter item description"></textarea>
+                            {% elif field.html_name == 'quantity' %}
+                            <input type="number" name="{{ field.html_name }}" class="form-control"
+                                placeholder="Enter quantity" min="0" required>
+                            {% else %}
+                            {{ field }}
+                            {% endif %}
+                        </div>
                         {% endfor %}
                         <button type="submit" name="add_item" class="btn btn-primary">
                             <i class="fas fa-plus"></i> Add Item
@@ -450,36 +470,44 @@
                 <h2 class="section-title">
                     <i class="fas fa-inventory"></i> Current Items
                 </h2>
-                
+
                 {% if items %}
-                    <ul class="items-grid">
-                        {% for item in items %}
-                            <li class="item-card fade-in">
-                                <div class="item-header">
-                                    <h3 class="item-name">{{ item.name }}</h3>
-                                    <span class="item-quantity">{{ item.quantity }}</span>
-                                </div>
-                                <p class="item-description">{{ item.description|default:"No description available" }}</p>
-                                {% if is_admin %}
-                                    <div class="item-actions">
-                                        <form method="post" style="display:inline;">
-                                            {% csrf_token %}
-                                            <input type="hidden" name="remove_item" value="{{ item.id }}">
-                                            <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to remove this item?')">
-                                                <i class="fas fa-trash"></i> Remove
-                                            </button>
-                                        </form>
-                                    </div>
-                                {% endif %}
-                            </li>
-                        {% endfor %}
-                    </ul>
+                <ul class="items-grid">
+                    {% for item in items %}
+                    <li class="item-card fade-in">
+                        <div class="item-header">
+                            <h3 class="item-name">{{ item.name }}</h3>
+                            <span class="item-quantity">{{ item.quantity }}</span>
+                        </div>
+                        <p class="item-description">{{ item.description|default:"No description available" }}</p>
+                        {% if is_admin %}
+                        <div class="item-actions">
+                            <form method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <input type="hidden" name="remove_item" value="{{ item.id }}">
+                                <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Are you sure you want to remove this item?')">
+                                    <i class="fas fa-trash"></i> Remove
+                                </button>
+                            </form>
+                        </div>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% if is_viewer %}
+                <div class="empty-state" style="margin-top:2rem;">
+                    <i class="fas fa-info-circle"></i>
+                    <h3>VIEW ONLY</h3>
+                    <h3>Contact me for full access to add or remove items</h3>
+                </div>
+                {% endif %}
                 {% else %}
-                    <div class="empty-state">
-                        <i class="fas fa-box-open"></i>
-                        <h3>No items in inventory</h3>
-                        <p>Add your first item using the form above</p>
-                    </div>
+                <div class="empty-state">
+                    <i class="fas fa-box-open"></i>
+                    <h3>No items in inventory</h3>
+                    <p>Add your first item using the form above</p>
+                </div>
                 {% endif %}
             </div>
         </div>
@@ -487,30 +515,30 @@
 
     <script>
         // Add smooth animations for form interactions
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const formControls = document.querySelectorAll('.form-control');
             const buttons = document.querySelectorAll('.btn');
-            
+
             // Add focus animations to form controls
             formControls.forEach(control => {
-                control.addEventListener('focus', function() {
+                control.addEventListener('focus', function () {
                     this.style.transform = 'translateY(-2px)';
                 });
-                
-                control.addEventListener('blur', function() {
+
+                control.addEventListener('blur', function () {
                     this.style.transform = 'translateY(0)';
                 });
             });
 
             // Add ripple effect to buttons
             buttons.forEach(button => {
-                button.addEventListener('click', function(e) {
+                button.addEventListener('click', function (e) {
                     const ripple = document.createElement('span');
                     const rect = this.getBoundingClientRect();
                     const size = Math.max(rect.width, rect.height);
                     const x = e.clientX - rect.left - size / 2;
                     const y = e.clientY - rect.top - size / 2;
-                    
+
                     ripple.style.cssText = `
                         position: absolute;
                         width: ${size}px;
@@ -523,9 +551,9 @@
                         animation: ripple 0.6s linear;
                         pointer-events: none;
                     `;
-                    
+
                     this.appendChild(ripple);
-                    
+
                     setTimeout(() => {
                         ripple.remove();
                     }, 600);
@@ -552,4 +580,5 @@
         document.head.appendChild(style);
     </script>
 </body>
+
 </html>
