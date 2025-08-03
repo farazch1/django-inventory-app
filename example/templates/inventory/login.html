@@ -390,9 +390,9 @@
                 {% for field in form %}
                     <div class="form-group">
                         {% if field.html_name == 'username' %}
-                            {{ field.label_tag }} <span style="color: var(--text-secondary); font-size: 0.85em; font-weight: 400;">(enter "viewer_user" for viewing)</span>
+                            {{ field.label_tag }} <span style="color: var(--text-secondary); font-size: 0.85em; font-weight: 400;">(enter "admin_user")</span>
                         {% elif field.html_name == 'password' %}
-                            {{ field.label_tag }} <span style="color: var(--text-secondary); font-size: 0.85em; font-weight: 400;">(enter "viewuser1234" for viewing)</span>
+                            {{ field.label_tag }} <span style="color: var(--text-secondary); font-size: 0.85em; font-weight: 400;">(enter "GreatPakistan")</span>
                         {% else %}
                             {{ field.label_tag }}
                         {% endif %}
