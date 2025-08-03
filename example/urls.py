@@ -1,9 +1,16 @@
-# example/urls.py
+# # example/urls.py
+# from django.urls import path
+
+# from example.views import index
+
+
+# urlpatterns = [
+#     path('', index),
+# ]
+
 from django.urls import path
-
-from example.views import index
-
+from .views import inventory_view
 
 urlpatterns = [
-    path('', index),
+    path('', inventory_view, name='inventory'),
 ]
