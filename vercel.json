@@ -4,6 +4,5 @@
       "src": "/(.*)",
       "dest": "api/wsgi.py"
     }
-  ],
-  "buildCommand": "python manage.py setup_deployment"
+  ]
 }
