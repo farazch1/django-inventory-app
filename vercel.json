@@ -4,5 +4,12 @@
       "src": "/(.*)",
       "dest": "api/wsgi.py"
     }
-  ]
+  ],
+  "builds": [
+    {
+      "src": "api/wsgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "buildCommand": "python manage.py setup_deployment"
 }
